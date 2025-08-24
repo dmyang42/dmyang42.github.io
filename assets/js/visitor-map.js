@@ -45,14 +45,9 @@
         }
     }
 
-    // Get visitor location using IP geolocation
+    // Get visitor location using IP geolocation and accumulate all visitors over 6 months
     async function trackCurrentVisitor() {
         try {
-            // Check if visitor was already tracked in this session
-            if (sessionStorage.getItem('visitor_tracked')) {
-                return;
-            }
-
             // Use ipapi.co for IP geolocation (free tier: 1000 requests/day)
             const response = await fetch('https://ipapi.co/json/', {
                 method: 'GET',
@@ -66,11 +61,9 @@
             }
             
             const locationData = await response.json();
+            console.log('Location data received:', locationData);
             
             if (locationData.latitude && locationData.longitude) {
-                // Debug: Log the location data to see what's available
-                console.log('Location data received:', locationData);
-                
                 const visitor = {
                     lat: locationData.latitude,
                     lng: locationData.longitude,
@@ -78,31 +71,39 @@
                     region: locationData.region || locationData.region_code || '',
                     country: locationData.country_name || locationData.country || 'Unknown',
                     timestamp: new Date().toISOString(),
-                    ip: locationData.ip || 'unknown'
+                    ip: locationData.ip || 'unknown',
+                    userAgent: navigator.userAgent.substring(0, 50), // Partial UA for uniqueness
+                    sessionId: generateSessionId()
                 };
                 
-                console.log('Visitor data created:', visitor);
+                console.log('New visitor data:', visitor);
 
-                // Add to visitors data (avoid duplicates by checking recent IPs)
-                const recentVisitor = visitorsData.find(v => 
+                // Check for recent duplicate (same IP within 2 hours to avoid spam)
+                const twoHoursAgo = new Date(Date.now() - 2 * 60 * 60 * 1000);
+                const isDuplicate = visitorsData.some(v => 
                     v.ip === visitor.ip && 
-                    new Date(visitor.timestamp) - new Date(v.timestamp) < 24 * 60 * 60 * 1000 // 24 hours
+                    new Date(v.timestamp) > twoHoursAgo
                 );
                 
-                if (!recentVisitor) {
+                if (!isDuplicate) {
                     visitorsData.push(visitor);
+                    console.log(`New visitor added from ${visitor.city}, ${visitor.country}. Total visitors: ${visitorsData.length}`);
                     saveVisitorData();
                     addVisitorToMap(visitor);
                     updateVisitorDisplay();
+                } else {
+                    console.log('Duplicate visitor within 2 hours, not adding to avoid spam');
                 }
-                
-                // Mark as tracked for this session
-                sessionStorage.setItem('visitor_tracked', 'true');
             }
         } catch (error) {
             console.warn('Could not track visitor location:', error);
-            // Fallback: show map with existing data only
+            // Show map with existing data only
         }
+    }
+
+    // Generate a simple session ID for visitor tracking
+    function generateSessionId() {
+        return 'visit_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
     }
 
     // Add visitor marker to map
@@ -171,10 +172,10 @@
             const stored = localStorage.getItem(STORAGE_KEY);
             if (stored) {
                 visitorsData = JSON.parse(stored);
-                // Clean old data (older than 30 days)
-                const thirtyDaysAgo = new Date();
-                thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-                visitorsData = visitorsData.filter(v => new Date(v.timestamp) > thirtyDaysAgo);
+                // Clean old data (older than 6 months)
+                const sixMonthsAgo = new Date();
+                sixMonthsAgo.setDate(sixMonthsAgo.getDate() - 180);
+                visitorsData = visitorsData.filter(v => new Date(v.timestamp) > sixMonthsAgo);
                 
                 // Add existing visitors to map
                 visitorsData.forEach(visitor => addVisitorToMap(visitor));
