@@ -4,6 +4,7 @@
 
     let visitorMap;
     let visitorsData = [];
+    let visitorMarkers = []; // Keep track of all markers for clearing
     const STORAGE_KEY = 'visitor_map_data';
     
     // Initialize the visitor map
@@ -78,21 +79,23 @@
                 
                 console.log('New visitor data:', visitor);
 
-                // Check for recent duplicate (same IP within 2 hours to avoid spam)
-                const twoHoursAgo = new Date(Date.now() - 2 * 60 * 60 * 1000);
+                // Check for recent duplicate (same IP within 30 minutes to avoid spam but allow VPN switches)
+                const thirtyMinutesAgo = new Date(Date.now() - 30 * 60 * 1000);
                 const isDuplicate = visitorsData.some(v => 
                     v.ip === visitor.ip && 
-                    new Date(v.timestamp) > twoHoursAgo
+                    new Date(v.timestamp) > thirtyMinutesAgo
                 );
                 
                 if (!isDuplicate) {
                     visitorsData.push(visitor);
-                    console.log(`New visitor added from ${visitor.city}, ${visitor.country}. Total visitors: ${visitorsData.length}`);
+                    console.log(`New visitor added from ${visitor.city}, ${visitor.country} (IP: ${visitor.ip}). Total visitors: ${visitorsData.length}`);
                     saveVisitorData();
                     addVisitorToMap(visitor);
                     updateVisitorDisplay();
                 } else {
-                    console.log('Duplicate visitor within 2 hours, not adding to avoid spam');
+                    console.log('Duplicate visitor within 30 minutes, not adding to avoid spam');
+                    // Still update display to show existing visitor
+                    updateVisitorDisplay();
                 }
             }
         } catch (error) {
@@ -104,6 +107,16 @@
     // Generate a simple session ID for visitor tracking
     function generateSessionId() {
         return 'visit_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
+    }
+
+    // Clear all visitor markers from the map
+    function clearAllMarkers() {
+        visitorMarkers.forEach(marker => {
+            if (visitorMap && marker) {
+                visitorMap.removeLayer(marker);
+            }
+        });
+        visitorMarkers = [];
     }
 
     // Add visitor marker to map
@@ -122,6 +135,7 @@
         const marker = L.marker([visitor.lat, visitor.lng], { 
             icon: visitorIcon
         }).addTo(visitorMap);
+        visitorMarkers.push(marker); // Track marker for potential clearing
 
         // Create additional markers for world wraps (at +360 and -360 longitude)
         const wrapOffsets = [-360, 360];
@@ -130,6 +144,7 @@
             const wrappedMarker = L.marker([visitor.lat, wrappedLng], { 
                 icon: visitorIcon 
             }).addTo(visitorMap);
+            visitorMarkers.push(wrappedMarker); // Track wrapped markers too
             
             // Add same popup to wrapped markers
             addPopupToMarker(wrappedMarker, visitor);
@@ -172,13 +187,30 @@
             const stored = localStorage.getItem(STORAGE_KEY);
             if (stored) {
                 visitorsData = JSON.parse(stored);
+                console.log('Loaded visitor data from storage:', visitorsData.length, 'visitors');
+                
                 // Clean old data (older than 6 months)
                 const sixMonthsAgo = new Date();
                 sixMonthsAgo.setDate(sixMonthsAgo.getDate() - 180);
+                const beforeCleanup = visitorsData.length;
                 visitorsData = visitorsData.filter(v => new Date(v.timestamp) > sixMonthsAgo);
+                console.log(`Cleaned old data: ${beforeCleanup} -> ${visitorsData.length} visitors`);
+                
+                // Clear existing markers before re-adding
+                clearAllMarkers();
                 
                 // Add existing visitors to map
-                visitorsData.forEach(visitor => addVisitorToMap(visitor));
+                visitorsData.forEach((visitor, index) => {
+                    console.log(`Adding visitor ${index + 1}:`, visitor.city, visitor.country);
+                    addVisitorToMap(visitor);
+                });
+                
+                // Save cleaned data back to storage
+                if (beforeCleanup !== visitorsData.length) {
+                    saveVisitorData();
+                }
+            } else {
+                console.log('No stored visitor data found');
             }
         } catch (error) {
             console.warn('Could not load visitor data:', error);
