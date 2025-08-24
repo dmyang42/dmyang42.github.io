@@ -90,7 +90,9 @@
                     visitorsData.push(visitor);
                     console.log(`New visitor added from ${visitor.city}, ${visitor.country} (IP: ${visitor.ip}). Total visitors: ${visitorsData.length}`);
                     saveVisitorData();
-                    addVisitorToMap(visitor);
+                    // Refresh the entire map with aggregated data
+                    clearAllMarkers();
+                    addAggregatedVisitorsToMap();
                     updateVisitorDisplay();
                 } else {
                     console.log('Duplicate visitor within 30 minutes, not adding to avoid spam');
@@ -119,20 +121,50 @@
         visitorMarkers = [];
     }
 
-    // Add visitor marker to map
-    function addVisitorToMap(visitor) {
+    // Group visitors by city and add aggregated markers
+    function addAggregatedVisitorsToMap() {
+        if (!visitorMap || visitorsData.length === 0) return;
+
+        // Group visitors by city (using city + country as unique key)
+        const cityGroups = {};
+        visitorsData.forEach(visitor => {
+            const cityKey = `${visitor.city}, ${visitor.country}`;
+            if (!cityGroups[cityKey]) {
+                cityGroups[cityKey] = {
+                    lat: visitor.lat,
+                    lng: visitor.lng,
+                    city: visitor.city,
+                    country: visitor.country,
+                    count: 0,
+                    visitors: []
+                };
+            }
+            cityGroups[cityKey].count++;
+            cityGroups[cityKey].visitors.push(visitor);
+        });
+
+        // Add aggregated markers for each city
+        Object.values(cityGroups).forEach(group => {
+            console.log(`Adding aggregated marker for ${group.city}: ${group.count} visits`);
+            addCityMarkerToMap(group);
+        });
+    }
+
+    // Add city marker to map with visit count
+    function addCityMarkerToMap(cityGroup) {
         if (!visitorMap) return;
 
-        // Create custom icon
+        // Create custom icon with size based on visit count
+        const baseSize = Math.min(12 + (cityGroup.count * 2), 24); // Scale marker size, max 24px
         const visitorIcon = L.divIcon({
             className: 'visitor-marker',
-            html: '<div style="background: #ff6b35; width: 12px; height: 12px; border-radius: 50%; border: 2px solid white; box-shadow: 0 1px 3px rgba(0,0,0,0.3);"></div>',
-            iconSize: [16, 16],
-            iconAnchor: [8, 8]
+            html: `<div style="background: #ff6b35; width: ${baseSize}px; height: ${baseSize}px; border-radius: 50%; border: 2px solid white; box-shadow: 0 1px 3px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; color: white; font-size: ${Math.min(10, baseSize/2)}px; font-weight: bold;">${cityGroup.count > 1 ? cityGroup.count : ''}</div>`,
+            iconSize: [baseSize + 4, baseSize + 4],
+            iconAnchor: [(baseSize + 4)/2, (baseSize + 4)/2]
         });
 
         // Add marker with world wrapping enabled
-        const marker = L.marker([visitor.lat, visitor.lng], { 
+        const marker = L.marker([cityGroup.lat, cityGroup.lng], { 
             icon: visitorIcon
         }).addTo(visitorMap);
         visitorMarkers.push(marker); // Track marker for potential clearing
@@ -140,45 +172,52 @@
         // Create additional markers for world wraps (at +360 and -360 longitude)
         const wrapOffsets = [-360, 360];
         wrapOffsets.forEach(offset => {
-            const wrappedLng = visitor.lng + offset;
-            const wrappedMarker = L.marker([visitor.lat, wrappedLng], { 
+            const wrappedLng = cityGroup.lng + offset;
+            const wrappedMarker = L.marker([cityGroup.lat, wrappedLng], { 
                 icon: visitorIcon 
             }).addTo(visitorMap);
             visitorMarkers.push(wrappedMarker); // Track wrapped markers too
             
             // Add same popup to wrapped markers
-            addPopupToMarker(wrappedMarker, visitor);
+            addCityPopupToMarker(wrappedMarker, cityGroup);
         });
 
         // Add popup to original marker
-        addPopupToMarker(marker, visitor);
+        addCityPopupToMarker(marker, cityGroup);
     }
 
-    // Helper function to add popup to marker
-    function addPopupToMarker(marker, visitor) {
-        // Add popup with city name prominently displayed
-        console.log('Creating popup for visitor:', visitor);
+    // Legacy function for backward compatibility (now unused)
+    function addVisitorToMap(visitor) {
+        // This function is now handled by addAggregatedVisitorsToMap
+        console.log('Legacy addVisitorToMap called, using aggregated system instead');
+    }
+
+    // Helper function to add popup to city marker with visit count
+    function addCityPopupToMarker(marker, cityGroup) {
+        console.log('Creating city popup for:', cityGroup.city, 'with', cityGroup.count, 'visits');
         
         let locationText = '';
-        if (visitor.city && visitor.city !== 'Unknown City' && visitor.region && visitor.region !== visitor.city) {
-            locationText = `${visitor.city}, ${visitor.region}`;
-        } else if (visitor.city && visitor.city !== 'Unknown City') {
-            locationText = visitor.city;
-        } else if (visitor.region && visitor.region !== '') {
-            locationText = visitor.region;
+        if (cityGroup.city && cityGroup.city !== 'Unknown City') {
+            locationText = cityGroup.city;
         } else {
-            locationText = visitor.country;
+            locationText = cityGroup.country;
         }
         
-        console.log('Location text for popup:', locationText);
+        const visitText = cityGroup.count === 1 ? '1 visit' : `${cityGroup.count} visits`;
             
         marker.bindPopup(`
             <div style="text-align: center; font-size: 0.9em;">
                 <strong style="font-size: 1.1em; color: #ff6b35;">${locationText}</strong><br>
-                ${visitor.country !== locationText ? `<small style="color: #ccc;">${visitor.country}</small><br>` : ''}
-                <small style="color: #888;">${new Date(visitor.timestamp).toLocaleDateString()}</small>
+                ${cityGroup.country !== locationText ? `<small style="color: #ccc;">${cityGroup.country}</small><br>` : ''}
+                <strong style="color: #666; font-size: 1em;">${visitText}</strong>
             </div>
         `);
+    }
+
+    // Legacy popup function (keeping for compatibility)
+    function addPopupToMarker(marker, visitor) {
+        // This is now handled by addCityPopupToMarker
+        console.log('Legacy popup function called');
     }
 
     // Load visitor data from localStorage
@@ -199,11 +238,8 @@
                 // Clear existing markers before re-adding
                 clearAllMarkers();
                 
-                // Add existing visitors to map
-                visitorsData.forEach((visitor, index) => {
-                    console.log(`Adding visitor ${index + 1}:`, visitor.city, visitor.country);
-                    addVisitorToMap(visitor);
-                });
+                // Group visitors by city and add aggregated markers
+                addAggregatedVisitorsToMap();
                 
                 // Save cleaned data back to storage
                 if (beforeCleanup !== visitorsData.length) {
