@@ -1,11 +1,11 @@
-// Visitor Map Widget
+// Visitor Map Widget with Server-Side API
 (function() {
     'use strict';
 
     let visitorMap;
     let visitorsData = [];
     let visitorMarkers = []; // Keep track of all markers for clearing
-    const STORAGE_KEY = 'visitor_map_data';
+    let isLoading = false;
     
     // Initialize the visitor map
     function initVisitorMap() {
@@ -31,14 +31,11 @@
                 noWrap: false // Allow world wrapping
             }).addTo(visitorMap);
 
-            // Load existing visitor data
-            loadVisitorData();
+            // Load existing visitor data from server
+            loadVisitorDataFromAPI();
             
             // Track current visitor
             trackCurrentVisitor();
-            
-            // Update display
-            updateVisitorDisplay();
 
         } catch (error) {
             console.error('Failed to initialize visitor map:', error);
@@ -86,19 +83,8 @@
                     new Date(v.timestamp) > thirtyMinutesAgo
                 );
                 
-                if (!isDuplicate) {
-                    visitorsData.push(visitor);
-                    console.log(`New visitor added from ${visitor.city}, ${visitor.country} (IP: ${visitor.ip}). Total visitors: ${visitorsData.length}`);
-                    saveVisitorData();
-                    // Refresh the entire map with aggregated data
-                    clearAllMarkers();
-                    addAggregatedVisitorsToMap();
-                    updateVisitorDisplay();
-                } else {
-                    console.log('Duplicate visitor within 30 minutes, not adding to avoid spam');
-                    // Still update display to show existing visitor
-                    updateVisitorDisplay();
-                }
+                // Use API to add visitor (handles duplicate checking server-side)
+                addVisitorToAPI(visitor);
             }
         } catch (error) {
             console.warn('Could not track visitor location:', error);
@@ -220,47 +206,96 @@
         console.log('Legacy popup function called');
     }
 
-    // Load visitor data from localStorage
-    function loadVisitorData() {
+    // Load visitor data from API
+    async function loadVisitorDataFromAPI() {
+        if (isLoading) return;
+        
         try {
-            const stored = localStorage.getItem(STORAGE_KEY);
-            if (stored) {
-                visitorsData = JSON.parse(stored);
-                console.log('Loaded visitor data from storage:', visitorsData.length, 'visitors');
-                
-                // Clean old data (older than 6 months)
-                const sixMonthsAgo = new Date();
-                sixMonthsAgo.setDate(sixMonthsAgo.getDate() - 180);
-                const beforeCleanup = visitorsData.length;
-                visitorsData = visitorsData.filter(v => new Date(v.timestamp) > sixMonthsAgo);
-                console.log(`Cleaned old data: ${beforeCleanup} -> ${visitorsData.length} visitors`);
-                
-                // Clear existing markers before re-adding
-                clearAllMarkers();
-                
-                // Group visitors by city and add aggregated markers
-                addAggregatedVisitorsToMap();
-                
-                // Save cleaned data back to storage
-                if (beforeCleanup !== visitorsData.length) {
-                    saveVisitorData();
-                }
-            } else {
-                console.log('No stored visitor data found');
+            isLoading = true;
+            showLoadingState();
+            
+            console.log('Loading visitor data from API...');
+            
+            // Wait for API to be ready
+            if (!window.visitorAPI) {
+                console.log('Waiting for Visitor API to load...');
+                await waitForAPI();
             }
+            
+            // Get all visitors from server
+            visitorsData = await window.visitorAPI.getAllVisitors();
+            console.log(`Loaded ${visitorsData.length} visitors from API`);
+            
+            // Clear existing markers and add aggregated data
+            clearAllMarkers();
+            addAggregatedVisitorsToMap();
+            updateVisitorDisplay();
+            
         } catch (error) {
-            console.warn('Could not load visitor data:', error);
-            visitorsData = [];
+            console.error('Failed to load visitor data from API:', error);
+            showErrorState();
+        } finally {
+            isLoading = false;
+            hideLoadingState();
         }
     }
 
-    // Save visitor data to localStorage
-    function saveVisitorData() {
+    // Add visitor to API
+    async function addVisitorToAPI(visitorData) {
         try {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(visitorsData));
+            console.log('Adding visitor to API:', visitorData.city, visitorData.country);
+            
+            // Wait for API to be ready
+            if (!window.visitorAPI) {
+                await waitForAPI();
+            }
+            
+            // Add visitor via API
+            const result = await window.visitorAPI.addVisitor(visitorData);
+            
+            if (result.success) {
+                console.log(`Visitor added successfully. Total: ${result.visitors.length}`);
+                
+                // Update local data and refresh map
+                visitorsData = result.visitors;
+                clearAllMarkers();
+                addAggregatedVisitorsToMap();
+                updateVisitorDisplay();
+                
+                if (result.offline) {
+                    showOfflineIndicator();
+                }
+            } else {
+                console.log('Visitor not added:', result.reason);
+                // Still update display with existing data
+                updateVisitorDisplay();
+            }
+            
         } catch (error) {
-            console.warn('Could not save visitor data:', error);
+            console.error('Failed to add visitor via API:', error);
+            showErrorState();
         }
+    }
+
+    // Wait for API to be available
+    function waitForAPI() {
+        return new Promise((resolve, reject) => {
+            let attempts = 0;
+            const maxAttempts = 50; // 5 seconds max
+            
+            const checkAPI = () => {
+                if (window.visitorAPI) {
+                    resolve();
+                } else if (attempts < maxAttempts) {
+                    attempts++;
+                    setTimeout(checkAPI, 100);
+                } else {
+                    reject(new Error('Visitor API failed to load'));
+                }
+            };
+            
+            checkAPI();
+        });
     }
 
     // Update visitor statistics display
@@ -270,6 +305,68 @@
             const count = visitorsData.length;
             const countries = [...new Set(visitorsData.map(v => v.country))].length;
             totalElement.textContent = `${count} visitors from ${countries} countries`;
+        }
+    }
+
+    // UI feedback functions
+    function showLoadingState() {
+        const mapElement = document.getElementById('visitor-map');
+        if (mapElement) {
+            // Add loading indicator
+            const loader = document.createElement('div');
+            loader.id = 'visitor-map-loader';
+            loader.style.cssText = `
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                background: rgba(255, 255, 255, 0.9);
+                padding: 8px 12px;
+                border-radius: 4px;
+                font-size: 12px;
+                z-index: 1000;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            `;
+            loader.innerHTML = '🌍 Loading visitors...';
+            mapElement.appendChild(loader);
+        }
+    }
+
+    function hideLoadingState() {
+        const loader = document.getElementById('visitor-map-loader');
+        if (loader) {
+            loader.remove();
+        }
+    }
+
+    function showErrorState() {
+        const totalElement = document.getElementById('total-visitors');
+        if (totalElement) {
+            totalElement.textContent = 'Visitor data temporarily unavailable';
+            totalElement.style.color = '#ff6b35';
+        }
+    }
+
+    function showOfflineIndicator() {
+        const mapElement = document.getElementById('visitor-map');
+        if (mapElement) {
+            const indicator = document.createElement('div');
+            indicator.id = 'offline-indicator';
+            indicator.style.cssText = `
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                background: rgba(255, 107, 53, 0.9);
+                color: white;
+                padding: 6px 10px;
+                border-radius: 4px;
+                font-size: 11px;
+                z-index: 1000;
+            `;
+            indicator.innerHTML = '📱 Offline mode';
+            mapElement.appendChild(indicator);
+            
+            // Remove after 3 seconds
+            setTimeout(() => indicator.remove(), 3000);
         }
     }
 
