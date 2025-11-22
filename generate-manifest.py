@@ -53,5 +53,9 @@ if __name__ == "__main__":
     nice_folder = "images/nice"
     generate_image_manifest(nice_folder)
     
+    # Generate manifest for Val Thorens photos
+    val_thorens_folder = "images/val_thorens"
+    generate_image_manifest(val_thorens_folder)
+    
     # You can add other folders here
     # generate_image_manifest("images/netherlands")

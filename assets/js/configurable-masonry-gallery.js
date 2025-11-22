@@ -5,7 +5,8 @@
     // Get configuration from window.galleryConfig or use defaults
     const config = window.galleryConfig || {
         imageFolder: 'images/nice/',
-        locationName: 'Nice'
+        locationName: 'Nice',
+        images: []
     };
 
     console.log(`Configurable Masonry Gallery: Loading ${config.locationName} gallery from ${config.imageFolder}`);
@@ -46,9 +47,13 @@
                 throw new Error('No manifest found');
             }
         } catch (error) {
-            console.log(`${config.locationName} Gallery: Could not load manifest, using fallback`);
-            // You could add fallback logic here if needed
-            return;
+            console.log(`${config.locationName} Gallery: Could not load manifest, attempting fallback list`);
+            if (Array.isArray(config.images) && config.images.length > 0) {
+                images = config.images;
+                console.log(`${config.locationName} Gallery: Using fallback list with ${images.length} images`);
+            } else {
+                return;
+            }
         }
 
         if (images.length === 0) {

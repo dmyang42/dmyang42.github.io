@@ -229,6 +229,17 @@
     box-shadow: 0 8px 25px rgba(244, 172, 183, 0.3);
 }
 
+/* Val Thorens: Alpine Lavender Palette (#D4ADFC, #C19BF0) */
+.location-val-thorens .enhanced-cta {
+    background: linear-gradient(135deg, #D4ADFC, #C19BF0);
+    color: #2C2A4A;
+}
+
+.location-val-thorens .enhanced-cta:hover {
+    background: linear-gradient(135deg, #C19BF0, #D4ADFC);
+    box-shadow: 0 8px 25px rgba(193, 155, 240, 0.3);
+}
+
 /* Netherlands: Warm Peach Palette (#FFF8E1, #FFE4B5, #FFCF9E, #F4A261) */
 .location-netherlands .enhanced-cta {
     background: linear-gradient(135deg, #FFCF9E, #F4A261);
@@ -315,6 +326,10 @@
 
 .enhanced-article:nth-child(3) {
     animation-delay: 0.2s;
+}
+
+.enhanced-article:nth-child(4) {
+    animation-delay: 0.3s;
 }
 
 @keyframes slideInUp {
