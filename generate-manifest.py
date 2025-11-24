@@ -56,6 +56,14 @@ if __name__ == "__main__":
     # Generate manifest for Val Thorens photos
     val_thorens_folder = "images/val_thorens"
     generate_image_manifest(val_thorens_folder)
+
+    # Generate manifest for Keukenhof photos
+    keukenhof_folder = "images/keukenhof"
+    generate_image_manifest(keukenhof_folder)
+
+    # Generate manifest for Hawaii 2024 photos
+    hawaii_folder = "images/hawaii_2024"
+    generate_image_manifest(hawaii_folder)
     
     # You can add other folders here
     # generate_image_manifest("images/netherlands")

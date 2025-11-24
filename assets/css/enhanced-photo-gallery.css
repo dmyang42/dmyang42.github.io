@@ -240,6 +240,28 @@
     box-shadow: 0 8px 25px rgba(193, 155, 240, 0.3);
 }
 
+/* Hawaii: Tropical Mint Palette (#A8E6CF, #88D8C0) */
+.location-hawaii .enhanced-cta {
+    background: linear-gradient(135deg, #A8E6CF, #88D8C0);
+    color: #0F3D3E;
+}
+
+.location-hawaii .enhanced-cta:hover {
+    background: linear-gradient(135deg, #88D8C0, #A8E6CF);
+    box-shadow: 0 8px 25px rgba(136, 216, 192, 0.3);
+}
+
+/* Keukenhof: Tulip Garden Palette (#FDE2E4, #FAD2E1) */
+.location-keukenhof .enhanced-cta {
+    background: linear-gradient(135deg, #FDE2E4, #FAD2E1);
+    color: #22543D;
+}
+
+.location-keukenhof .enhanced-cta:hover {
+    background: linear-gradient(135deg, #FAD2E1, #FDE2E4);
+    box-shadow: 0 8px 25px rgba(250, 210, 225, 0.3);
+}
+
 /* Netherlands: Warm Peach Palette (#FFF8E1, #FFE4B5, #FFCF9E, #F4A261) */
 .location-netherlands .enhanced-cta {
     background: linear-gradient(135deg, #FFCF9E, #F4A261);
