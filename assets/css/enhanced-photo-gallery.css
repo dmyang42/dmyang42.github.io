@@ -262,6 +262,17 @@
     box-shadow: 0 8px 25px rgba(250, 210, 225, 0.3);
 }
 
+/* South Korea: Neon Harbor Palette (#C7CEEA, #A0C1E8) */
+.location-south-korea .enhanced-cta {
+    background: linear-gradient(135deg, #C7CEEA, #A0C1E8);
+    color: #1A2A3A;
+}
+
+.location-south-korea .enhanced-cta:hover {
+    background: linear-gradient(135deg, #A0C1E8, #C7CEEA);
+    box-shadow: 0 8px 25px rgba(160, 193, 232, 0.3);
+}
+
 /* Netherlands: Warm Peach Palette (#FFF8E1, #FFE4B5, #FFCF9E, #F4A261) */
 .location-netherlands .enhanced-cta {
     background: linear-gradient(135deg, #FFCF9E, #F4A261);

@@ -64,6 +64,10 @@ if __name__ == "__main__":
     # Generate manifest for Hawaii 2024 photos
     hawaii_folder = "images/hawaii_2024"
     generate_image_manifest(hawaii_folder)
+
+    # Generate manifest for South Korea photos
+    south_korea_folder = "images/south_korea"
+    generate_image_manifest(south_korea_folder)
     
     # You can add other folders here
     # generate_image_manifest("images/netherlands")
