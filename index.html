@@ -15,21 +15,6 @@
         <link rel="stylesheet" href="assets/css/visitor-map.css" />
         <link rel="shortcut icon" href="images/favicon.ico">
         <meta name="google-site-verification" content="15-m4tnU4pW6tIbjCLH4kFllk-GNmkSMGkxfpSkHh7w" />
-        <style>
-            /* Fixed visitor widget in the lower-right corner */
-            #visitor-map-widget {
-                position: fixed;
-                bottom: 20px;
-                right: 20px;
-                width: 180px;
-                height: 180px;
-                z-index: 2000;
-            }
-            #visitor-map-widget > * {
-                width: 100%;
-                height: 100%;
-            }
-        </style>
     </head>
     <body class="is-preload">
 
@@ -111,7 +96,13 @@
                                 <span>dyang [at] strw [dot] leidenuniv [dot] nl</span><br/>
                                 <!-- <span>topologyYDM [at] gmail [dot] com</span> -->
                                 <hr />
-
+                                <!-- <div class="visitor-map-container">
+                                    <h3>Visitor Locations</h3>
+                                    <div id="visitor-map" style="height: 400px; width: 100%; border-radius: 8px;"></div>
+                                    <div id="visitor-stats" style="margin-top: 10px; text-align: center; font-size: 0.9em; color: #888;">
+                                        <span id="total-visitors">Loading visitors...</span>
+                                    </div>
+                                </div> -->
                                 <span>Last Update: November 9, 2022</span>
                             </article>
                     </div>     
@@ -134,11 +125,6 @@
             <script src="assets/js/main.js"></script>
             <script src="assets/js/visitor-api.js"></script>
         <script src="assets/js/visitor-map.js"></script>
-
-        <!-- Visitor Map (fixed in lower-right) -->
-        <div id="visitor-map-widget" aria-label="Visitor map">
-            <script type="text/javascript" id="mapmyvisitors" src="//mapmyvisitors.com/map.js?d=nmMglvohcUZodHyrGkM-HchgWMcuEQlMEmzqVmLbKW0&cl=ffffff&w=a"></script>
-        </div>
 
     </body>
 </html>
