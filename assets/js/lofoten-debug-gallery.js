@@ -4,6 +4,15 @@
 
     console.log('Lofoten Debug Gallery: Script loaded');
 
+    const annotations = {
+        'E45E6C71-85A5-4B27-8AD7-359510786249_1_105_c.jpeg': [
+            { label: 'Xinyu', x: 8, y: 30 },
+            { label: 'Shuo', x: 27, y: 35 },
+            { label: 'Ben', x: 55, y: 25 },
+            { label: 'Me', x: 84, y: 31 }
+        ]
+    };
+
     function debugLofotenGallery() {
         console.log('Lofoten Debug Gallery: Starting...');
         
@@ -137,7 +146,7 @@
             // Add click handler for lightbox
             item.addEventListener('click', () => {
                 if (img.src && img.complete) {
-                    openSimpleLightbox(img.src, `Lofoten Photo ${index + 1}`);
+                    openSimpleLightbox(img.src, `Lofoten Photo ${index + 1}`, filename);
                 }
             });
 
@@ -148,7 +157,7 @@
     }
 
     // Simple lightbox
-    function openSimpleLightbox(imageSrc, title) {
+    function openSimpleLightbox(imageSrc, title, filename) {
         console.log(`Lofoten Debug Gallery: Opening lightbox for ${title}`);
         
         const lightbox = document.createElement('div');
@@ -166,14 +175,44 @@
             cursor: pointer;
         `;
 
+        const imageStage = document.createElement('div');
+        imageStage.className = 'masonry-lightbox-stage';
+
         const img = document.createElement('img');
         img.src = imageSrc;
         img.style.cssText = `
-            max-width: 95%;
-            max-height: 95%;
+            display: block;
+            max-width: 90vw;
+            max-height: 90vh;
+            width: auto;
+            height: auto;
             object-fit: contain;
             border-radius: 8px;
         `;
+        imageStage.appendChild(img);
+
+        const photoAnnotations = annotations[filename] || [];
+        photoAnnotations.forEach((annotation) => {
+            const marker = document.createElement('div');
+            marker.className = 'photo-annotation';
+            marker.style.left = `${annotation.x}%`;
+            marker.style.top = `${annotation.y}%`;
+            marker.style.setProperty('--annotation-leader-height', '38px');
+
+            const label = document.createElement('span');
+            label.className = 'photo-annotation-label';
+            label.textContent = annotation.label;
+
+            const leader = document.createElement('span');
+            leader.className = 'photo-annotation-leader';
+            const dot = document.createElement('span');
+            dot.className = 'photo-annotation-dot';
+
+            marker.appendChild(label);
+            marker.appendChild(leader);
+            marker.appendChild(dot);
+            imageStage.appendChild(marker);
+        });
 
         const closeBtn = document.createElement('div');
         closeBtn.innerHTML = '✕';
@@ -207,9 +246,33 @@
             font-size: 1rem;
         `;
 
-        lightbox.appendChild(img);
+        if (photoAnnotations.length > 0) {
+            const annotationToggle = document.createElement('button');
+            annotationToggle.type = 'button';
+            annotationToggle.className = 'photo-annotation-toggle';
+            annotationToggle.textContent = 'Hide annotations';
+            annotationToggle.setAttribute('aria-pressed', 'true');
+            annotationToggle.addEventListener('click', (event) => {
+                event.stopPropagation();
+                const visible = !imageStage.classList.toggle('annotations-hidden');
+                annotationToggle.textContent = visible ? 'Hide annotations' : 'Show annotations';
+                annotationToggle.setAttribute('aria-pressed', String(visible));
+            });
+            info.style.bottom = 'auto';
+            info.style.position = 'static';
+            info.style.transform = 'none';
+            info.style.fontFamily = '"Merriweather", Georgia, serif';
+
+            const controls = document.createElement('div');
+            controls.className = 'masonry-lightbox-controls';
+            controls.appendChild(info);
+            controls.appendChild(annotationToggle);
+            imageStage.appendChild(controls);
+        }
+
+        lightbox.appendChild(imageStage);
         lightbox.appendChild(closeBtn);
-        lightbox.appendChild(info);
+        if (photoAnnotations.length === 0) lightbox.appendChild(info);
         document.body.appendChild(lightbox);
 
         // Close handlers

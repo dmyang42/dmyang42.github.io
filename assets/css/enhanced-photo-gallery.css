@@ -39,6 +39,8 @@
 }
 
 .enhanced-article {
+    display: flex;
+    flex-direction: column;
     background: #FEFEFE;
     border: 1px solid #F7FAFC;
     border-radius: 24px;
@@ -99,6 +101,9 @@
 }
 
 .enhanced-content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
     padding: 2rem;
     background: transparent;
 }
@@ -174,7 +179,9 @@
 
 .enhanced-cta {
     display: inline-flex;
+    margin-top: auto;
     align-items: center;
+    justify-content: center;
     gap: 0.6rem;
     padding: 0.9rem 2rem;
     background: #1A202C;

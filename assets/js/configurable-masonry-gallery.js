@@ -6,6 +6,7 @@
     const config = window.galleryConfig || {
         imageFolder: 'images/nice/',
         locationName: 'Nice',
+        annotations: {},
         images: []
     };
 
@@ -218,17 +219,58 @@
             backdrop-filter: blur(10px);
         `;
 
+        const imageStage = document.createElement('div');
+        imageStage.className = 'masonry-lightbox-stage';
+
         const img = document.createElement('img');
+        img.className = 'masonry-lightbox-image';
         img.src = imageSrc;
         img.style.cssText = `
-            max-width: 90%;
-            max-height: 90%;
+            display: block;
+            max-width: 90vw;
+            max-height: 90vh;
+            width: auto;
+            height: auto;
             object-fit: contain;
             border-radius: 8px;
             box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
             transform: scale(0.9);
             transition: transform 0.3s ease;
         `;
+
+        imageStage.appendChild(img);
+
+        const filename = allImages[currentIndex];
+        const annotations = config.annotations && Array.isArray(config.annotations[filename])
+            ? config.annotations[filename]
+            : [];
+
+        annotations.forEach((annotation) => {
+            const marker = document.createElement('div');
+            marker.className = 'photo-annotation';
+            marker.style.left = `${annotation.x}%`;
+            marker.style.top = `${annotation.y}%`;
+            if (Number.isFinite(annotation.lineLength)) {
+                marker.style.setProperty('--annotation-leader-height', `${annotation.lineLength}px`);
+            }
+            marker.setAttribute('role', 'note');
+            marker.setAttribute('aria-label', annotation.label);
+
+            const label = document.createElement('span');
+            label.className = 'photo-annotation-label';
+            label.textContent = annotation.label;
+
+            const leader = document.createElement('span');
+            leader.className = 'photo-annotation-leader';
+
+            const dot = document.createElement('span');
+            dot.className = 'photo-annotation-dot';
+
+            marker.appendChild(label);
+            marker.appendChild(leader);
+            marker.appendChild(dot);
+            imageStage.appendChild(marker);
+        });
 
         // Close button
         const closeBtn = document.createElement('div');
@@ -298,25 +340,33 @@
 
         // Info panel
         const infoPanel = document.createElement('div');
+        infoPanel.className = 'masonry-lightbox-info';
         infoPanel.innerHTML = `${title} (${currentIndex + 1}/${allImages.length})`;
-        infoPanel.style.cssText = `
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: white;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 12px 24px;
-            border-radius: 25px;
-            font-size: 1rem;
-            backdrop-filter: blur(10px);
-        `;
 
-        lightbox.appendChild(img);
+        let annotationToggle = null;
+        if (annotations.length > 0) {
+            annotationToggle = document.createElement('button');
+            annotationToggle.type = 'button';
+            annotationToggle.className = 'photo-annotation-toggle';
+            annotationToggle.textContent = 'Hide annotations';
+            annotationToggle.setAttribute('aria-pressed', 'true');
+            annotationToggle.addEventListener('click', () => {
+                const annotationsVisible = !imageStage.classList.toggle('annotations-hidden');
+                annotationToggle.textContent = annotationsVisible ? 'Hide annotations' : 'Show annotations';
+                annotationToggle.setAttribute('aria-pressed', String(annotationsVisible));
+            });
+        }
+
+        const bottomControls = document.createElement('div');
+        bottomControls.className = 'masonry-lightbox-controls';
+        bottomControls.appendChild(infoPanel);
+        if (annotationToggle) bottomControls.appendChild(annotationToggle);
+        imageStage.appendChild(bottomControls);
+
+        lightbox.appendChild(imageStage);
         lightbox.appendChild(closeBtn);
         lightbox.appendChild(prevBtn);
         lightbox.appendChild(nextBtn);
-        lightbox.appendChild(infoPanel);
         document.body.appendChild(lightbox);
 
         // Animate in

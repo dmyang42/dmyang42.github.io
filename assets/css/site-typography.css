@@ -1,0 +1,26 @@
+#main,
+#main input,
+#main select,
+#main textarea,
+#main button {
+    font-family: "Roboto", sans-serif;
+}
+
+#main h1,
+#main h2,
+#main h3,
+#main h4,
+#main h5,
+#main h6 {
+    font-family: "Roboto", sans-serif;
+}
+
+#main p {
+    font-size: 1.02rem;
+    line-height: 1.8;
+}
+
+#main .euclid-article p {
+    font-size: 1.02rem !important;
+    line-height: 1.8;
+}

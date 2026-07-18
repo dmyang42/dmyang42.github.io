@@ -9,7 +9,11 @@
         <title>Daming Yang - Home</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=0.75, user-scalable=no" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&amp;display=swap" />
         <link rel="stylesheet" href="assets/css/main.css" />
+        <link rel="stylesheet" href="assets/css/home.css" />
         <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
         <link rel="stylesheet" href="assets/css/visitor-map.css" />
@@ -40,7 +44,7 @@
                         <ul class="links">
                             <li class="active"><a href="index.html">Home</a></li>
                             <li><a href="research.html">Research</a></li>
-                            <li><a href="personal.html">More About me</a></li>
+                            <li><a href="personal.html">CV</a></li>
                             <li><a href="photo.html">Photos</a></li>
                         </ul>
                         <ul class="icons">
@@ -52,57 +56,48 @@
                 <!-- Main -->
                     <div id="main">
 
-                        <!-- Featured Post -->
-                            <article class="post featured">
-                                <header class="major">
-                                    <h2>High-z quasar hunter</h2>
+                        <article class="home-page">
+                            <section class="home-profile" aria-label="About Daming Yang">
+                                <figure class="home-portrait">
+                                    <img src="images/bio.JPG" alt="Portrait of Daming Yang" />
+                                </figure>
+                                <div class="home-bio">
+                                    <p class="home-eyebrow">Astronomer · Leiden Observatory</p>
+                                    <h1>Daming Yang <span class="home-name-chinese" lang="zh">羊达明</span></h1>
+                                    <p>I am a PhD candidate at <a href="https://local.strw.leidenuniv.nl/">Leiden Observatory</a>, working with Joe Hennawi. I study quasars and galaxies in the first billion years of the Universe. My current work focuses on discovering quasars deep in the epoch of reionization with the Euclid space telescope and the largest ground-based telescopes (especially Keck), and understanding the supermassive black holes that power quasars of all kinds with JWST and ALMA. More recently, I have also begun studying the brightest galaxies of the reionization era.</p>
+                                    <p class="home-contact"><a href="mailto:dyang@strw.leidenuniv.nl"><i class="icon regular fa-envelope" aria-hidden="true"></i> dyang [at] strw [dot] leidenuniv [dot] nl</a></p>
+                                </div>
+                            </section>
+
+                            <section class="home-news" aria-labelledby="news-title">
+                                <header class="home-news-header">
+                                    <p class="home-eyebrow">Updates</p>
+                                    <h2 id="news-title">Timeline News</h2>
                                 </header>
-                                <span class="image fit">
-                                    <img src="images/KU6A0791.JPG" alt="" />
-                                    <!-- <figcaption>Taken at Nice (2022).</figcaption> -->
-                                </span>
-                                <p>I am a PhD student in Astronomy at <a href="https://local.strw.leidenuniv.nl/">Leiden Observatory</a>. I am broadly interested in the early Universe, particularly in what happened during the epoch of reionization.</p>
-                                <p>I am an observer by training and have had the privilege of using many remarkable telescopes, while still learning every day how to make the most of them.</p>
-                                <p>My current interests include the demographics of supermassive black holes, and the transition regime between quasars and galaxies — that is, the faintest quasars and the brightest galaxies.</p>
-                                    <!-- I study high redshift quasars and the early universe they live in.<br />
-                                    <br />
-                                    To me, there are three moments in research that I especially enjoy: <br />
-                                    1) &nbsp;<b>When I capture something on the fly.</b> This stems from my quasar hunting experience with Joe, one of my advisor at Leiden.
-                                    One of the lesson I learnt from Joe is to understand the data as complete as we can during the observation, otherwise the probability of screwing-up will be boosted drastically.
-                                    By doing so, it's natural to actually find something in real-time. I really enjoy the feeling of coming home with
-                                    fruitful results after a long day of observation. <br />
-                                    2) &nbsp;<b>When I successfully predict something.</b> The scope is quite broad, but the common reason is that in the field of astronomy, it's hard to
-                                    actually verify something. Therefore, every moment that I find out I can predict something, it's cheerful to me. By saying broad, it could be a
-                                    scientific prediction, or maybe a technical one. They are equally cheerful to me.<br />
-                                    3) &nbsp;<b>When I understand the logic of something thoroughly.</b> I often find myself "swallowing a date without chewing", i.e.
-                                    I sometimes try to do things before I fully understand it. I don't think it is necessarily a bad thing, but it is by no means the best way to improve.
-                                    Now I try to urge myself to understand things as much as possible before I do anything, which actually feels very rewarding. <br />
-                                    <br />
-                                    These thoughts establish my style and philosophy of research. I don't really confine myself to the fields that I am familiar with. With these 
-                                    experiences, I think I can be independent and flexible enough in my research. <br /> -->
-                                <!-- <span class="image fit">
-                                    <img src="images/ydm.jpg" alt="" />
-                                    <figcaption>Daming Yang (left). Taken at Leiden University Medical Center.</figcaption>
-                                </span> -->
-                                <!-- <ul class="actions special">
-                                    <li><a href="#" class="button large">My Research</a></li>
-                                </ul>
-                                <ul class="actions special">
-                                    <li><a href="#" class="button large">More About Me</a></li>
-                                </ul> -->
-                                <h3>Email <i class="icon regular fa-envelope"></i></h3>
-                                <span>dyang [at] strw [dot] leidenuniv [dot] nl</span><br/>
-                                <!-- <span>topologyYDM [at] gmail [dot] com</span> -->
-                                <hr />
-                                <!-- <div class="visitor-map-container">
-                                    <h3>Visitor Locations</h3>
-                                    <div id="visitor-map" style="height: 400px; width: 100%; border-radius: 8px;"></div>
-                                    <div id="visitor-stats" style="margin-top: 10px; text-align: center; font-size: 0.9em; color: #888;">
-                                        <span id="total-visitors">Loading visitors...</span>
-                                    </div>
-                                </div> -->
-                                <span>Last Update: November 9, 2022</span>
-                            </article>
+                                <ol class="timeline">
+                                    <li class="timeline-item">
+                                        <time datetime="2026-07">July 2026</time>
+                                        <div class="timeline-content">
+                                            <h3>Euclid discovers 31 high-redshift quasars</h3>
+                                            <p>Our Euclid search confirmed 31 quasars at <em>z</em> = 6.6–7.8, including the two most distant quasars yet observed. <a href="euclid-quasars.html">Read the story</a> or view the <a href="https://www.aanda.org/articles/aa/abs/2026/07/aa58883-26/aa58883-26.html">A&amp;A paper</a>.</p>
+                                        </div>
+                                    </li>
+                                    <li class="timeline-item">
+                                        <time datetime="2023">2023</time>
+                                        <div class="timeline-content">
+                                            <h3>High-z Quasar Candidate Archive published</h3>
+                                            <p>We presented a spectroscopic archive of 176 high-redshift quasar candidates observed with Keck, together with guidance for future candidate selection and follow-up. <a href="https://arxiv.org/abs/2211.16996">Read the paper</a>.</p>
+                                        </div>
+                                    </li>
+                                    <li class="timeline-item">
+                                        <time datetime="2023-09">September 2023</time>
+                                        <div class="timeline-content">
+                                            <h3>Started my PhD at Leiden Observatory</h3>
+                                        </div>
+                                    </li>
+                                </ol>
+                            </section>
+                        </article>
                     </div>     
 
                     <!-- Copyright -->

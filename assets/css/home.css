@@ -1,0 +1,202 @@
+.home-page {
+    padding: 5rem 6rem 4rem;
+    font-family: "Roboto", sans-serif;
+}
+
+.home-profile {
+    display: grid;
+    grid-template-columns: minmax(320px, 0.95fr) minmax(0, 1.05fr);
+    gap: 3.25rem;
+    align-items: center;
+    max-width: 1050px;
+    margin: 0 auto;
+}
+
+.home-portrait {
+    margin: 0;
+}
+
+.home-portrait img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+.home-bio {
+    text-align: left;
+}
+
+.home-bio h1,
+.home-news h2,
+.timeline h3 {
+    font-family: "Roboto", sans-serif;
+    text-transform: none;
+    letter-spacing: normal;
+}
+
+.home-bio h1 {
+    margin: 0 0 1.35rem;
+    font-size: 1.4rem;
+    line-height: 1.1;
+}
+
+.home-name-chinese {
+    display: inline-block;
+    margin-left: 0.45rem;
+    color: #717981;
+    font-size: 1em;
+    font-weight: 400;
+    white-space: nowrap;
+}
+
+.home-bio p {
+    margin: 0 0 1.15rem;
+    font-size: 1.02rem;
+    line-height: 1.8;
+}
+
+.home-eyebrow {
+    margin: 0 0 0.55rem !important;
+    color: #717981;
+    font-family: "Roboto", sans-serif;
+    font-size: 0.78rem !important;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.home-contact {
+    margin-top: 1.65rem !important;
+    font-family: "Roboto", sans-serif;
+}
+
+.home-contact a {
+    border-bottom: 0;
+}
+
+.home-news {
+    max-width: 1050px;
+    margin: 5rem auto 0;
+    padding-top: 3.5rem;
+    border-top: 1px solid #eeeeee;
+    text-align: left;
+}
+
+.home-news-header {
+    margin-bottom: 2.25rem;
+}
+
+.home-news h2 {
+    margin: 0;
+    font-size: 2rem;
+}
+
+.timeline {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.timeline-item {
+    display: grid;
+    grid-template-columns: 120px minmax(0, 1fr);
+    gap: 2rem;
+    position: relative;
+    margin: 0;
+    padding: 0 0 2.25rem;
+}
+
+.timeline-item:last-child {
+    padding-bottom: 0;
+}
+
+.timeline-item time {
+    padding-top: 0.2rem;
+    color: #717981;
+    font-family: "Roboto", sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-align: right;
+}
+
+.timeline-content {
+    position: relative;
+    padding: 0 0 0 2.25rem;
+    border-left: 2px solid #d9dde1;
+}
+
+.timeline-content::before {
+    content: "";
+    position: absolute;
+    top: 0.35rem;
+    left: -0.42rem;
+    width: 0.72rem;
+    height: 0.72rem;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    background: #212931;
+    box-shadow: 0 0 0 1px #212931;
+}
+
+.timeline h3 {
+    margin: 0 0 0.35rem;
+    font-size: 1.05rem;
+    line-height: 1.4;
+}
+
+.timeline p {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.7;
+}
+
+@media screen and (max-width: 980px) {
+    .home-page {
+        padding: 4rem 3rem 3.5rem;
+    }
+
+    .home-profile {
+        gap: 2.75rem;
+    }
+}
+
+@media screen and (max-width: 736px) {
+    .home-page {
+        padding: 2.75rem 1.5rem 3rem;
+    }
+
+    .home-profile {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .home-portrait {
+        max-width: 420px;
+    }
+
+    .home-bio h1 {
+        font-size: 1.4rem;
+    }
+
+    .home-news {
+        margin-top: 3.5rem;
+        padding-top: 2.75rem;
+    }
+
+    .timeline-item {
+        grid-template-columns: 1fr;
+        gap: 0.45rem;
+        padding-bottom: 2rem;
+    }
+
+    .timeline-item time {
+        padding: 0 0 0 1.5rem;
+        text-align: left;
+    }
+
+    .timeline-content {
+        padding-left: 1.5rem;
+    }
+}
