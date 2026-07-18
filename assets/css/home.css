@@ -1,14 +1,14 @@
 .home-page {
-    padding: 5rem 6rem 4rem;
+    padding: 3.5rem 4rem 3rem;
     font-family: "Roboto", sans-serif;
 }
 
 .home-profile {
     display: grid;
-    grid-template-columns: minmax(320px, 0.95fr) minmax(0, 1.05fr);
-    gap: 3.25rem;
+    grid-template-columns: minmax(360px, 1fr) minmax(0, 1.08fr);
+    gap: 2.5rem;
     align-items: center;
-    max-width: 1050px;
+    max-width: 1120px;
     margin: 0 auto;
 }
 
@@ -154,11 +154,12 @@
 
 @media screen and (max-width: 980px) {
     .home-page {
-        padding: 4rem 3rem 3.5rem;
+        padding: 3rem 2.5rem 3rem;
     }
 
     .home-profile {
-        gap: 2.75rem;
+        grid-template-columns: minmax(300px, 1fr) minmax(0, 1.08fr);
+        gap: 2rem;
     }
 }
 
