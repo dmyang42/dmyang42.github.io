@@ -233,21 +233,12 @@
         `;
 
         const info = document.createElement('div');
+        info.className = 'masonry-lightbox-info';
         info.innerHTML = title;
-        info.style.cssText = `
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: white;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-size: 1rem;
-        `;
 
+        let annotationToggle = null;
         if (photoAnnotations.length > 0) {
-            const annotationToggle = document.createElement('button');
+            annotationToggle = document.createElement('button');
             annotationToggle.type = 'button';
             annotationToggle.className = 'photo-annotation-toggle';
             annotationToggle.textContent = 'Hide annotations';
@@ -258,21 +249,16 @@
                 annotationToggle.textContent = visible ? 'Hide annotations' : 'Show annotations';
                 annotationToggle.setAttribute('aria-pressed', String(visible));
             });
-            info.style.bottom = 'auto';
-            info.style.position = 'static';
-            info.style.transform = 'none';
-            info.style.fontFamily = '"Merriweather", Georgia, serif';
-
-            const controls = document.createElement('div');
-            controls.className = 'masonry-lightbox-controls';
-            controls.appendChild(info);
-            controls.appendChild(annotationToggle);
-            imageStage.appendChild(controls);
         }
+
+        const controls = document.createElement('div');
+        controls.className = 'masonry-lightbox-controls';
+        controls.appendChild(info);
+        if (annotationToggle) controls.appendChild(annotationToggle);
+        imageStage.appendChild(controls);
 
         lightbox.appendChild(imageStage);
         lightbox.appendChild(closeBtn);
-        if (photoAnnotations.length === 0) lightbox.appendChild(info);
         document.body.appendChild(lightbox);
 
         // Close handlers
