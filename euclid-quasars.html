@@ -190,6 +190,13 @@
                                         </a>
                                     </li>
                                     <li>
+                                        <a class="press-audio-link" href="assets/audio/bbc-newshour-euclid-quasars-2026-07-06.m4a">
+                                            <span class="press-source">BBC Newshour</span>
+                                            <span class="press-title">Euclid’s discovery of the earliest quasars (audio clip)</span>
+                                            <span class="press-arrow" aria-hidden="true">▶</span>
+                                        </a>
+                                    </li>
+                                    <li>
                                         <a href="https://www.nikkei.com/article/DGXZQOSG136640T10C26A7000000/">
                                             <span class="press-source">Nikkei</span>
                                             <span class="press-title" lang="ja">131億年前の超巨大ブラックホール、欧州の新型宇宙望遠鏡が発見</span>
@@ -201,6 +208,18 @@
                             </section>
                         </section>
                     </div>
+
+                <dialog class="press-audio-dialog" aria-labelledby="press-audio-title">
+                    <div class="press-audio-dialog-header">
+                        <h2 id="press-audio-title">BBC Newshour</h2>
+                        <button class="press-audio-close" type="button" aria-label="Close audio player">Close</button>
+                    </div>
+                    <p>Euclid’s discovery of the earliest quasars</p>
+                    <audio controls preload="metadata">
+                        <source src="assets/audio/bbc-newshour-euclid-quasars-2026-07-06.m4a" type="audio/mp4" />
+                        Your browser does not support the audio player.
+                    </audio>
+                </dialog>
 
                 <!-- Copyright -->
                     <div id="copyright">
@@ -216,6 +235,7 @@
             <script src="assets/js/breakpoints.min.js"></script>
             <script src="assets/js/util.js"></script>
             <script src="assets/js/main.js"></script>
+            <script src="assets/js/press-audio-player.js"></script>
 
     </body>
 </html>

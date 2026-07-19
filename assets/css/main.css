@@ -5009,7 +5009,7 @@ input, select, textarea {
                 display: grid;
                 gap: 1rem;
                 grid-template-columns: 9rem 1fr auto;
-                padding: 0.8rem 0;
+                padding: 0.35rem 0;
             }
 
                 .press-list li a:hover .press-title {
@@ -5025,12 +5025,12 @@ input, select, textarea {
         font-family: "Source Sans Pro", Helvetica, sans-serif;
         font-size: 0.72rem;
         font-weight: 900;
-        letter-spacing: 0.075em;
-        text-transform: uppercase;
+        letter-spacing: 0.025em;
     }
 
     .press-title {
-        line-height: 1.55;
+        font-size: 0.8rem;
+        line-height: 1.2;
         transition: color 0.2s ease;
     }
 
@@ -5046,6 +5046,51 @@ input, select, textarea {
         margin: 0.9rem 0 0;
         text-align: right;
     }
+
+    .press-audio-dialog {
+        border: 0;
+        border-radius: 0.35rem;
+        box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.25);
+        max-width: 32rem;
+        padding: 1.5rem;
+        width: calc(100% - 2rem);
+    }
+
+        .press-audio-dialog::backdrop {
+            background: rgba(18, 27, 37, 0.72);
+        }
+
+        .press-audio-dialog-header {
+            align-items: center;
+            display: flex;
+            gap: 1rem;
+            justify-content: space-between;
+        }
+
+            .press-audio-dialog-header h2 {
+                font-size: 1.25rem;
+                margin: 0;
+                text-transform: none;
+            }
+
+        .press-audio-dialog p {
+            font-size: 0.9rem;
+            margin: 0.75rem 0 1rem;
+            text-align: left;
+        }
+
+        .press-audio-dialog audio {
+            display: block;
+            width: 100%;
+        }
+
+        .press-audio-close {
+            box-shadow: inset 0 0 0 2px #dfe3e8;
+            font-size: 0.7rem;
+            height: 2.5rem;
+            line-height: 2.5rem;
+            padding: 0 1rem;
+        }
 
     @media screen and (max-width: 736px) {
 
