@@ -5039,6 +5039,16 @@ input, select, textarea {
         transition: transform 0.2s ease;
     }
 
+        .press-list li a:not(.press-audio-link) .press-arrow {
+            font-size: 0;
+        }
+
+            .press-list li a:not(.press-audio-link) .press-arrow::before {
+                content: "\2197\FE0E";
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 1rem;
+            }
+
     .press-more {
         color: #7b828c;
         font-size: 0.85rem;
