@@ -5012,15 +5012,35 @@ input, select, textarea {
             padding-left: 0;
         }
 
+            .press-list li.press-item-with-audio,
+            .press-list li.press-item-with-action {
+                align-items: stretch;
+                display: grid;
+                grid-template-columns: 1fr auto;
+            }
+
             .press-list li a {
                 align-items: center;
                 border-bottom: 0;
                 color: #263444;
                 display: grid;
                 gap: 1rem;
-                grid-template-columns: 9rem 1fr auto;
+                grid-template-columns: 9rem 1fr;
                 padding: 0.35rem 0;
             }
+
+                .press-list li a:not(.press-audio-link):not(.press-action-button) {
+                    pointer-events: none;
+                }
+
+                    .press-list li a:not(.press-audio-link):not(.press-action-button) .press-title {
+                        justify-self: start;
+                        pointer-events: auto;
+                    }
+
+                .press-list li a.press-audio-link:not(.press-audio-button) {
+                    grid-template-columns: 9rem 1fr auto;
+                }
 
                 .press-list li a:hover .press-title {
                     color: #18bfef;
@@ -5029,6 +5049,23 @@ input, select, textarea {
                 .press-list li a:hover .press-arrow {
                     transform: translate(0.2rem, -0.2rem);
                 }
+
+            .press-list li .press-audio-button,
+            .press-list li .press-action-button {
+                display: flex;
+                padding-left: 1rem;
+            }
+
+                .press-list li .press-audio-button:hover .press-arrow,
+                .press-list li .press-action-button:hover .press-action-icon {
+                    transform: scale(1.12);
+                }
+
+            .press-action-icon {
+                color: #ff0000;
+                font-size: 1.05rem;
+                transition: transform 0.2s ease;
+            }
 
     .press-source {
         color: #7b828c;
@@ -5048,16 +5085,6 @@ input, select, textarea {
         font-size: 1rem;
         transition: transform 0.2s ease;
     }
-
-        .press-list li a:not(.press-audio-link) .press-arrow {
-            font-size: 0;
-        }
-
-            .press-list li a:not(.press-audio-link) .press-arrow::before {
-                content: "\2197\FE0E";
-                font-family: Arial, Helvetica, sans-serif;
-                font-size: 1rem;
-            }
 
         .press-audio-link .press-arrow {
             font-size: 0;

@@ -27,7 +27,7 @@
 }
 
 .cv-viewer {
-    overflow: hidden;
+    overflow: auto;
     width: 100%;
     height: min(900px, 82vh);
     min-height: 620px;
@@ -37,11 +37,21 @@
     box-shadow: 0 10px 30px rgba(33, 41, 49, 0.12);
 }
 
-.cv-viewer iframe {
+.cv-pages {
+    width: 106%;
+}
+
+.cv-pages img {
     display: block;
     width: 100%;
-    height: 100%;
+    height: auto;
+    margin: 0 0 1rem;
     border: 0;
+    background: #ffffff;
+}
+
+.cv-pages img:last-child {
+    margin-bottom: 0;
 }
 
 @media screen and (max-width: 736px) {
