@@ -4922,6 +4922,16 @@ input, select, textarea {
             color: #18bfef !important;
         }
 
+        .euclid-paper-link span[aria-hidden="true"] {
+            font-size: 0;
+        }
+
+            .euclid-paper-link span[aria-hidden="true"]::before {
+                content: "\2197\FE0E";
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 0.8rem;
+            }
+
     .euclid-article {
         max-width: 54rem;
         margin: 0 auto;
@@ -5045,6 +5055,16 @@ input, select, textarea {
 
             .press-list li a:not(.press-audio-link) .press-arrow::before {
                 content: "\2197\FE0E";
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 1rem;
+            }
+
+        .press-audio-link .press-arrow {
+            font-size: 0;
+        }
+
+            .press-audio-link .press-arrow::before {
+                content: "\25B6\FE0E";
                 font-family: Arial, Helvetica, sans-serif;
                 font-size: 1rem;
             }
