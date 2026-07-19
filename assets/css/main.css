@@ -5007,6 +5007,10 @@ input, select, textarea {
         padding: 0;
     }
 
+        .press-list:not(.is-expanded) li:not([data-featured-order]) {
+            display: none;
+        }
+
         .press-list li {
             border-top: solid 1px #dfe3e8;
             padding-left: 0;
@@ -5017,6 +5021,15 @@ input, select, textarea {
                 align-items: stretch;
                 display: grid;
                 grid-template-columns: 1fr auto;
+            }
+
+            .press-list li.press-item-pending {
+                align-items: center;
+                color: #7b828c;
+                display: grid;
+                gap: 1rem;
+                grid-template-columns: 9rem 1fr;
+                padding: 0.35rem 0;
             }
 
             .press-list li a {
@@ -5096,12 +5109,34 @@ input, select, textarea {
                 font-size: 1rem;
             }
 
+    .press-coverage-toggle {
+        background: transparent;
+        border: 0;
+        box-shadow: none;
+        color: #7b828c;
+        cursor: pointer;
+        display: block;
+        font-size: 0.85rem;
+        height: auto;
+        letter-spacing: 0;
+        line-height: 1.5;
+        margin: 1rem auto 0;
+        padding: 0.35rem 0;
+        text-transform: none;
+    }
+
+        .press-coverage-toggle:hover {
+            background: transparent;
+            box-shadow: none;
+            color: #18bfef !important;
+        }
+
     .press-more {
         color: #7b828c;
         font-size: 0.85rem;
         font-style: italic;
-        margin: 0.9rem 0 0;
-        text-align: right;
+        margin: 0.65rem 0 0;
+        text-align: center;
     }
 
     .press-audio-dialog {
