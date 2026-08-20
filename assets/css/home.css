@@ -157,6 +157,10 @@
     line-height: 1.4;
 }
 
+.timeline-paper-tag {
+    color: #0b6f91;
+}
+
 .timeline p {
     margin: 0;
     font-size: 0.9rem;
