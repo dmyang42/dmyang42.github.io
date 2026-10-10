@@ -110,18 +110,38 @@
 
 	};
 
-	// Play initial animations on page load.
-		$window.on('load', function() {
-			window.setTimeout(function() {
-				$body.removeClass('is-preload');
-			}, 100);
+	// Reveal content without waiting for images or other page resources.
+		window.requestAnimationFrame(function() {
+			$body.removeClass('is-preload');
 		});
 
 	// Scrolly.
 		$('.scrolly').scrolly();
 
-	// Background.
-		$('<div class="bg fixed"></div>').appendTo($wrapper);
+	// The CSS preview is visible before scripts run; fade in the decoded image.
+		if ($wrapper.length) {
+			var $background = $('<div class="bg fixed" aria-hidden="true"></div>').appendTo($wrapper),
+				backgroundImage = new Image(),
+				backgroundFile = window.matchMedia('(max-width: 980px)').matches
+					? 'bg-mobile.webp' : 'bg-desktop.webp';
+
+			function revealBackground() {
+				$background[0].style.setProperty('--background-image', 'url("' + backgroundImage.src + '")');
+				$background.addClass('is-loaded');
+			}
+
+			backgroundImage.decoding = 'async';
+			backgroundImage.onload = function() {
+				if (backgroundImage.decode) {
+					backgroundImage.decode().then(revealBackground, function() {
+						// Keep the preview if the full image cannot be decoded.
+					});
+				} else {
+					revealBackground();
+				}
+			};
+			backgroundImage.src = new URL('../../images/' + backgroundFile, document.currentScript.src).href;
+		}
 
 	// Nav Panel.
 
