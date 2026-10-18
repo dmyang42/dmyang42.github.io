@@ -8,10 +8,7 @@
     <head>
         <title>Daming Yang - Home</title>
         <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=0.75, user-scalable=no" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&amp;display=swap" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="stylesheet" href="assets/css/main.css" />
         <link rel="stylesheet" href="assets/css/home.css" />
         <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
@@ -73,12 +70,20 @@
                                 <header class="home-news-header">
                                     <p class="home-eyebrow">Updates</p>
                                     <h2 id="news-title">Timeline News</h2>
+                                    <p class="timeline-window" id="timeline-status" aria-live="polite" hidden></p>
                                 </header>
-                                <ol class="timeline">
+                                <ol class="timeline" id="news-timeline">
+                                    <li class="timeline-item">
+                                        <time datetime="2026-10-09"><span>October</span><span>2026</span></time>
+                                        <div class="timeline-content">
+                                            <h3><span class="timeline-paper-tag">[Paper]</span> A dust-reddened quasar at <em>z</em> = 6.55</h3>
+                                            <p>Our new paper combines JWST and ALMA observations to reveal a dust-reddened, rapidly accreting quasar in a luminous, dust-rich host galaxy during reionization. <a href="https://arxiv.org/abs/2610.13758">Read the paper</a>.</p>
+                                        </div>
+                                    </li>
                                     <li class="timeline-item">
                                         <time datetime="2026-08"><span>August</span><span>2026</span></time>
                                         <div class="timeline-content">
-                                            <h3><span class="timeline-paper-tag">[Paper]</span> New paper on extremely UV-luminous galaxies</h3>
+                                            <h3><span class="timeline-paper-tag">[Paper]</span> JWST reveals two UV-bright quasar impostors</h3>
                                             <p>Our new paper on two extremely UV-luminous galaxies (<em>M</em><sub>UV</sub> ≈ −23.5) in the reionization era is on arXiv today! <a href="https://arxiv.org/abs/2608.18212">Read the paper</a>.</p>
                                         </div>
                                     </li>
@@ -145,6 +150,10 @@
                                         </div>
                                     </li>
                                 </ol>
+                                <button class="timeline-toggle" id="timeline-toggle" type="button" aria-controls="news-timeline" aria-expanded="false" hidden>
+                                    <span class="timeline-toggle-label">Show older updates</span>
+                                    <span class="timeline-toggle-icon" aria-hidden="true"></span>
+                                </button>
                             </section>
                         </article>
                     </div>     
@@ -164,6 +173,7 @@
             <script src="assets/js/breakpoints.min.js"></script>
             <script src="assets/js/util.js"></script>
             <script src="assets/js/main.js"></script>
+            <script src="assets/js/timeline.js"></script>
             <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
             <script src="assets/js/visitor-api.js"></script>
         <script src="assets/js/visitor-map.js"></script>

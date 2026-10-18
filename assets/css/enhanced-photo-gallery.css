@@ -1,5 +1,4 @@
 /* Enhanced Photo Gallery Landing Page Styles */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Poppins:wght@300;400;500;600;700&display=swap');
 
 .photo-landing-hero {
     text-align: center;
@@ -8,7 +7,7 @@
 }
 
 .photo-landing-hero h1 {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--font-site);
     font-size: 4rem;
     font-weight: 600;
     margin-bottom: 1rem;
@@ -21,7 +20,7 @@
 }
 
 .photo-landing-hero .subtitle {
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-site);
     font-size: 1.1rem;
     color: #718096;
     font-weight: 400;
@@ -115,7 +114,7 @@
 .enhanced-date {
     display: block;
     color: #718096;
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-site);
     font-size: 0.85rem;
     font-weight: 400;
     margin-bottom: 0.5rem;
@@ -123,7 +122,7 @@
 }
 
 .enhanced-title {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--font-site);
     font-size: 1.75rem;
     font-weight: 600;
     margin-bottom: 1rem;
@@ -143,7 +142,7 @@
 }
 
 .enhanced-description {
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-site);
     color: #4A5568;
     line-height: 1.7;
     margin-bottom: 1.5rem;
@@ -163,7 +162,7 @@
     align-items: center;
     gap: 0.6rem;
     color: #718096;
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-site);
     font-size: 0.8rem;
     font-weight: 500;
 }
@@ -189,7 +188,7 @@
     color: #FFFFFF;
     text-decoration: none;
     border-radius: 35px;
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-site);
     font-weight: 500;
     font-size: 0.85rem;
     transition: all 0.3s ease;

@@ -1,0 +1,11 @@
+Latin Modern Sans, version 2.004 (OpenType font version).
+Copyright 2003, 2009 by B. Jackowski and J. M. Nowacki.
+Based on Computer Modern by Donald E. Knuth.
+Distributed under the GUST Font License; see GUST-FONT-LICENSE.TXT.
+Project: https://www.gust.org.pl/projects/e-foundry/latin-modern/
+
+These four OpenType files are unmodified copies from TeX Live 2024:
+  lmsans10-regular.otf
+  lmsans10-bold.otf
+  lmsans10-oblique.otf
+  lmsans10-boldoblique.otf

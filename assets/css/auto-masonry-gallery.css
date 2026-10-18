@@ -111,7 +111,7 @@
     align-items: center;
     transform: translate(-50%, -100%);
     color: #ffffff;
-    font-family: "Roboto", "Source Sans Pro", Helvetica, sans-serif;
+    font-family: var(--font-site);
     line-height: 1.2;
     pointer-events: none;
     transition: opacity 0.2s ease, visibility 0.2s ease;
@@ -130,7 +130,7 @@
     background: rgba(20, 24, 30, 0.78);
     color: #ffffff !important;
     -webkit-text-fill-color: #ffffff;
-    font-family: "Merriweather", Georgia, serif;
+    font-family: var(--font-site);
     font-size: 0.78rem;
     font-weight: 300;
     line-height: 1;
@@ -164,7 +164,7 @@
     border-radius: 999px;
     background: rgba(20, 24, 30, 0.78);
     color: #ffffff;
-    font-family: "Merriweather", Georgia, serif;
+    font-family: var(--font-site);
     font-size: 0.78rem;
     font-weight: 300;
     line-height: 1;

@@ -19,12 +19,12 @@
 
 // Font.
 	$font: (
-		family:				('Merriweather', Georgia, serif),
-		family-heading:		('Source Sans Pro', Helvetica, sans-serif),
+		family:				(var(--font-site)),
+		family-heading:		(var(--font-site)),
 		family-fixed:		('Courier New', monospace),
-		weight:				300,
-		weight-bold:		600,
-		weight-heading:		900
+		weight:				400,
+		weight-bold:		700,
+		weight-heading:		700
 	);
 
 // Palette.

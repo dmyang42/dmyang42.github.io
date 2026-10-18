@@ -1,6 +1,6 @@
 .home-page {
     padding: 3.5rem 4rem 3rem;
-    font-family: "Roboto", sans-serif;
+    font-family: var(--font-site);
 }
 
 .home-profile {
@@ -30,15 +30,15 @@
 .home-bio h1,
 .home-news h2,
 .timeline h3 {
-    font-family: "Roboto", sans-serif;
+    font-family: var(--font-site);
     text-transform: none;
     letter-spacing: normal;
 }
 
 .home-bio h1 {
     margin: 0 0 1.35rem;
-    font-size: 1.4rem;
-    line-height: 1.1;
+    font-size: 1.8rem;
+    line-height: 1.2;
 }
 
 .home-name-chinese {
@@ -52,15 +52,16 @@
 
 .home-bio p {
     margin: 0 0 1.15rem;
-    font-size: 1.02rem;
-    line-height: 1.8;
+    font-size: 1.2rem;
+    line-height: 1.75;
+    text-align: left;
 }
 
 .home-eyebrow {
     margin: 0 0 0.55rem !important;
     color: #717981;
-    font-family: "Roboto", sans-serif;
-    font-size: 0.78rem !important;
+    font-family: var(--font-site);
+    font-size: 0.9rem !important;
     font-weight: 600;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -68,7 +69,7 @@
 
 .home-contact {
     margin-top: 1.65rem !important;
-    font-family: "Roboto", sans-serif;
+    font-family: var(--font-site);
 }
 
 .home-contact a {
@@ -76,6 +77,7 @@
 }
 
 .home-news {
+    --timeline-toggle-offset: calc(140px + 3rem + 2px);
     max-width: 1050px;
     margin: 5rem auto 0;
     padding-top: 3.5rem;
@@ -89,7 +91,74 @@
 
 .home-news h2 {
     margin: 0;
-    font-size: 2rem;
+    font-size: 2.2rem;
+}
+
+.home-news-header .timeline-window {
+    color: #717981;
+    font-size: 1.05rem;
+    font-style: normal;
+    line-height: 1.6;
+    margin: 0.75rem 0 0;
+    text-align: left;
+}
+
+.timeline-item[hidden],
+.timeline-window[hidden],
+.timeline-toggle[hidden] {
+    display: none;
+}
+
+.timeline-toggle {
+    align-items: center;
+    background: transparent;
+    border: 0;
+    border-top: 1px solid #d9dde1;
+    border-radius: 0;
+    box-shadow: none;
+    color: #717981 !important;
+    display: flex;
+    font-family: var(--font-site);
+    font-size: 1.1rem;
+    font-weight: 400;
+    gap: 0.8rem;
+    height: auto;
+    justify-content: space-between;
+    letter-spacing: normal;
+    line-height: 1.5;
+    margin: 0 0 0 var(--timeline-toggle-offset);
+    min-height: 50px;
+    padding: 0.85rem 0;
+    text-align: left;
+    text-transform: none;
+    white-space: normal;
+    width: calc(100% - var(--timeline-toggle-offset));
+}
+
+.timeline-toggle:hover {
+    background: transparent;
+    border-color: #087ca4;
+    box-shadow: none;
+    color: #087ca4 !important;
+}
+
+.timeline-toggle:focus-visible {
+    outline: 2px solid #087ca4;
+    outline-offset: 4px;
+}
+
+.timeline-toggle-icon {
+    border-bottom: 1px solid currentColor;
+    border-right: 1px solid currentColor;
+    flex: 0 0 auto;
+    height: 0.5rem;
+    margin-right: 0.2rem;
+    transform: translateY(-0.15rem) rotate(45deg);
+    width: 0.5rem;
+}
+
+.timeline-toggle[aria-expanded="true"] .timeline-toggle-icon {
+    transform: translateY(0.15rem) rotate(225deg);
 }
 
 .timeline {
@@ -107,10 +176,6 @@
     padding: 0 0 2.25rem;
 }
 
-.timeline-item:last-child {
-    padding-bottom: 0;
-}
-
 .timeline-item time {
     display: grid;
     grid-template-columns: 1fr;
@@ -119,8 +184,8 @@
     width: 100%;
     padding-top: 0.2rem;
     color: #717981;
-    font-family: "Roboto", sans-serif;
-    font-size: 0.85rem;
+    font-family: var(--font-site);
+    font-size: 1rem;
     font-weight: 600;
     line-height: 1.15;
     letter-spacing: 0.04em;
@@ -152,8 +217,8 @@
 }
 
 .timeline h3 {
-    margin: 0 0 0.35rem;
-    font-size: 1rem;
+    margin: 0 0 0.45rem;
+    font-size: 1.25rem;
     line-height: 1.4;
 }
 
@@ -163,8 +228,9 @@
 
 .timeline p {
     margin: 0;
-    font-size: 0.9rem;
-    line-height: 1.7;
+    font-size: 1.1rem;
+    line-height: 1.75;
+    text-align: left;
 }
 
 @media screen and (max-width: 980px) {
@@ -192,11 +258,8 @@
         max-width: 420px;
     }
 
-    .home-bio h1 {
-        font-size: 1.4rem;
-    }
-
     .home-news {
+        --timeline-toggle-offset: calc(1.5rem + 2px);
         margin-top: 3.5rem;
         padding-top: 2.75rem;
     }
