@@ -149,6 +149,10 @@
 					$this
 						.on('click', 'a', function(event) {
 
+							// Preserve native modified clicks and navigation handled elsewhere.
+							if (event.isDefaultPrevented() || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)
+								return;
+
 							var $a = $(this),
 								href = $a.attr('href'),
 								target = $a.attr('target');

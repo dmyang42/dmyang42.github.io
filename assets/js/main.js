@@ -216,14 +216,17 @@
 					$navPanel
 						.css('transition', 'none');
 
-	// Intro.
-		var $intro = $('#intro');
+	// Rebind the intro to the active section after a partial navigation.
+		function initializeIntro() {
+			$main.unscrollex();
+			$main = $('#main');
+			var $intro = $('#intro'),
+				small = window.matchMedia('(max-width: 736px)').matches;
 
-		if ($intro.length > 0) {
-
+			if (!$intro.length) return;
 			// Hack: Fix flex min-height on IE.
 				if (browser.name == 'ie') {
-					$window.on('resize.ie-intro-fix', function() {
+					$window.off('resize.ie-intro-fix').on('resize.ie-intro-fix', function() {
 
 						var h = $intro.height();
 
@@ -235,44 +238,18 @@
 					}).trigger('resize.ie-intro-fix');
 				}
 
-			// Hide intro on scroll (> small).
-				breakpoints.on('>small', function() {
-
-					$main.unscrollex();
-
-					$main.scrollex({
-						mode: 'bottom',
-						top: '25vh',
-						bottom: '-50vh',
-						enter: function() {
-							$intro.addClass('hidden');
-						},
-						leave: function() {
-							$intro.removeClass('hidden');
-						}
-					});
-
-				});
-
-			// Hide intro on scroll (<= small).
-				breakpoints.on('<=small', function() {
-
-					$main.unscrollex();
-
-					$main.scrollex({
-						mode: 'middle',
-						top: '15vh',
-						bottom: '-15vh',
-						enter: function() {
-							$intro.addClass('hidden');
-						},
-						leave: function() {
-							$intro.removeClass('hidden');
-						}
-					});
-
+			$intro.find('.scrolly').scrolly();
+			$main.scrollex({
+				mode: small ? 'middle' : 'bottom',
+				top: small ? '15vh' : '25vh',
+				bottom: small ? '-15vh' : '-50vh',
+				enter: function() { $intro.addClass('hidden'); },
+				leave: function() { $intro.removeClass('hidden'); }
 			});
-
 		}
+
+		breakpoints.on('>small', initializeIntro);
+		breakpoints.on('<=small', initializeIntro);
+		document.addEventListener('site:pagechange', initializeIntro);
 
 })(jQuery);

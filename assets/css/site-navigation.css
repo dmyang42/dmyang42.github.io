@@ -1,0 +1,28 @@
+/* Cached sections stay mounted so embedded viewers retain their state. */
+#wrapper > [hidden] {
+    display: none !important;
+}
+
+/* Opening/closing the mobile menu must not fade the background and page shell. */
+body.has-section-navigation #wrapper {
+    opacity: 1;
+    transition: none;
+}
+
+body.has-section-navigation #nav {
+    transition: none;
+}
+
+body.has-section-navigation #header .logo {
+    transition: border-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+body.is-section-loading #nav a,
+body.is-section-loading #navPanel .links a {
+    cursor: progress;
+}
+
+/* Focus moves to the new content for keyboard and screen-reader navigation. */
+#main[tabindex="-1"]:focus {
+    outline: none;
+}
